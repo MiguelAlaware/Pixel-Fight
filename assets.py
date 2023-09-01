@@ -1,11 +1,10 @@
 import pygame
 
-class GameObject:
-    def __init__(self, image, height, speed):
-        self.speed = speed
+class GameObject():
+    def __init__(self, image, speed) -> None:
         self.image = image
-        self.pos = image.get_rect().move(0, height)
-    def move(self):
-        self.pos = self.pos.move(self.speed, 0)
-        if self.pos.right > 600:
-            self.pos.left = 0
+        self.speed = speed
+        self.movex = image.get_rect().right
+        self.movey = image.get_rect().left
+    def control(self):
+        
