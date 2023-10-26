@@ -1,0 +1,22 @@
+map = [
+'                            ',
+'                            ',
+'                            ',
+'                            ',
+'   XXXXX                    ',
+'     XX                     ',
+'                            ',
+'XX                          ',
+'XXX                 X       ',
+'XXXXX    XXXX  XX  XXX      ',
+'XXXXXX  XXXXX  XX  XXXX     ',
+
+
+
+
+
+
+
+
+
+]

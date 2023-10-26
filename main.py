@@ -15,51 +15,61 @@ player = pygame.transform.scale(pygame.image.load("images/knight.png"), (50, 50)
 x_position, y_position = 400, 660
 player_rect = player.get_rect(center=(x_position, y_position))
 speed = 5
-jumpHeight = 20
-y_velocity = jumpHeight
 jumping = False
+jumpCount = 10
+
+# ? Ground code
+ground = pygame.Rect
 
 # ? Game rules
 y_gravity = 1
 
 # ? Program loop code
 run = True
-CLOCK = pygame.time.Clock()
+clock = pygame.time.Clock()
 
 while run:
+    clock.tick(60)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
     # ? Movement code
     keys = pygame.key.get_pressed()
-
-    if keys[pygame.K_DOWN]:
-        player_rect.y += speed
-        print(player_rect.y)
-
-    if keys[pygame.K_LEFT]:
+    if keys[pygame.K_LEFT] and player_rect.x > speed:
         player_rect.x -= speed
 
-    if keys[pygame.K_RIGHT]:
+    if keys[pygame.K_RIGHT] and player_rect.x < 760:
         player_rect.x += speed
+        print(player_rect.x)
 
-    if keys[pygame.K_UP]:
-        player_rect.y -= speed
+    if not (jumping):
+        if keys[pygame.K_DOWN] and player_rect.y < 750:
+            player_rect.y += speed
+            print(player_rect.y)
 
-    if keys[pygame.K_SPACE]:
-        jumping = True
+        if keys[pygame.K_UP] and player_rect.y > speed:
+            player_rect.y -= speed
+            print(player_rect.y)
 
-    if jumping:
-        y_position -= y_velocity
-        y_velocity -= y_gravity
-        if y_velocity < -jumpHeight:
+        if keys[pygame.K_SPACE]:
+            jumping = True
+    else:
+        if jumpCount >= -10:
+            neg = 1
+            if jumpCount < 0:
+                neg = -1
+            player_rect.y -= (jumpCount**2) * 0.5 * neg
+            jumpCount -= 1
+        else:
             jumping = False
-            y_velocity = jumpHeight
-        player_rect = player.get_rect()
+            jumpCount = 10
 
     # ? Display config
+
     SCREEN.fill(CYAN)
     SCREEN.blit(player, player_rect)
+    SCREEN.blit()
     pygame.display.flip()
-    CLOCK.tick(60)
+    
