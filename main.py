@@ -34,7 +34,11 @@ ground = pygame.Rect
 run = True
 clock = pygame.time.Clock()
 
+# * Game functions
+
 while run:
+    
+    
     # ? Display config
     clock.tick(60)
     SCREEN.blit(player, player_rect)
@@ -73,6 +77,10 @@ while run:
                 neg = -1
             player_rect.y -= (jumpCount**2) * 0.5 * neg
             jumpCount -= 1
+            if player_rect.colliderect(platform):
+                if player_rect.y + player_rect.height > platform.y:
+                    player_rect.y = platform.y - player_rect.height
+                    jumpCount = 0
         else:
             jumping = False
             jumpCount = 10
@@ -85,10 +93,10 @@ while run:
 
     # ? Map rendering
     for platform in level:
-        if player_rect.colliderect(platform) and player_rect.y < platform.y:
-            player_rect.y = platform.y - player_rect.height
-            
-        if player_rect.colliderect(platform) and player_rect.y > platform.y:
-            player_rect.y = platform.y + player_rect.height
+       if player_rect.colliderect(platform):
+           if player_rect.y < platform.y:
+               player_rect.y = platform.y - player_rect.height
+           else:
+               player_rect.y = platform.y + platform.height
     for platform in level:
         pygame.draw.rect(SCREEN, BROWN, platform)
