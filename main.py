@@ -24,7 +24,7 @@ jumpCount = 10
 
 # ? Map code
 
-level = [pygame.Rect(0, height - 40, width, 40), pygame.Rect(300, 450, 200, 20)]
+level = [pygame.Rect(0, height - 40, width, 40), pygame.Rect(300, 450, 200, 30)]
 
 # ? Ground code
 ground = pygame.Rect
@@ -37,8 +37,6 @@ clock = pygame.time.Clock()
 # * Game functions
 
 while run:
-    
-    
     # ? Display config
     clock.tick(60)
     SCREEN.blit(player, player_rect)
@@ -54,19 +52,20 @@ while run:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and player_rect.x > speed:
         player_rect.x -= speed
+        print(f"Player x:{player_rect.x}")
 
     if keys[pygame.K_RIGHT] and player_rect.x < 760:
         player_rect.x += speed
-        print(player_rect.x)
+        print(f"Player x:{player_rect.x}")
 
     if not (jumping):
         if keys[pygame.K_DOWN] and player_rect.y < 750:
             player_rect.y += speed
-            print(player_rect.y)
+            print(f"Player y: {player_rect.y}")
 
         if keys[pygame.K_UP] and player_rect.y > speed:
             player_rect.y -= speed
-            print(player_rect.y)
+            print(f"Player y: {player_rect.y}")
 
         if keys[pygame.K_SPACE]:
             jumping = True
@@ -89,14 +88,14 @@ while run:
     SCREEN.fill(CYAN)
 
     # ? Game rules
-    player_rect.y += 1 
+    player_rect.y += 1
 
     # ? Map rendering
     for platform in level:
-       if player_rect.colliderect(platform):
-           if player_rect.y < platform.y:
-               player_rect.y = platform.y - player_rect.height
-           else:
-               player_rect.y = platform.y + platform.height
+        if player_rect.colliderect(platform):
+            if player_rect.y < platform.y:
+                player_rect.y = platform.y - player_rect.height
+            if player_rect.y > platform.y:
+                player_rect.y = platform.y + player_rect.height - 20
     for platform in level:
         pygame.draw.rect(SCREEN, BROWN, platform)
